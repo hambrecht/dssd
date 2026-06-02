@@ -4,7 +4,14 @@
 \alias{run.coverage}
 \title{run.coverage}
 \usage{
-run.coverage(design, reps = 10, save.transects = "", quiet = FALSE)
+run.coverage(
+  design,
+  reps = 10,
+  save.transects = "",
+  run.parallel = FALSE,
+  max.cores = NA,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{design}{an object which inherits from the Survey.Design
@@ -16,6 +23,11 @@ to be carried out.}
 \item{save.transects}{a directory where the shapefiles for the
 transects can be saved. The shapefile names will be S1, S2, ...
 existing files in the directory will not be overwritten.}
+
+\item{run.parallel}{logical option to use multiple processors.}
+
+\item{max.cores}{integer maximum number of cores to use, if not
+specified then one less than the number available will be used.}
 
 \item{quiet}{when TRUE no progress counter is displayed.}
 }

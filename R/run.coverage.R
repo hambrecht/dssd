@@ -22,13 +22,17 @@
 #' @param save.transects a directory where the shapefiles for the
 #' transects can be saved. The shapefile names will be S1, S2, ...
 #' existing files in the directory will not be overwritten.
+#' @param run.parallel logical option to use multiple processors.
+#' @param max.cores integer maximum number of cores to use, if not
+#' specified then one less than the number available will be used.
 #' @param quiet when TRUE no progress counter is displayed.
 #' @return this function returns the survey design object passed in
 #' and it will now include the coverage and design statistics.
 #' @seealso \link{make.design}
 #' @export
 #' @importFrom stats median sd
-run.coverage <- function(design, reps = 10, save.transects = "", quiet = FALSE){
+run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = FALSE,
+                         max.cores = NA, quiet = FALSE){
 #Calculates the coverage scores for the design supplied
 #Also stores summary statistics
 #All values are returned within the design object
@@ -58,41 +62,110 @@ run.coverage <- function(design, reps = 10, save.transects = "", quiet = FALSE){
   #Store values
   cov.area <- transect.count <- line.length <- trackline <- cyclictrackline <- matrix(rep(NA, reps*strata.count), ncol = strata.count, dimnames = list(1:reps, strata.names))
   total.hits <- rep(0, grid.count)
-  for(rep in 1:reps){
-    #Generate transects
+  run.single.coverage.rep <- function(rep, design, pts, grid.count, save.transects){
     transects <- generate.transects(design, quiet = TRUE)
-    #if the user wants the transects saved write them to file
+    if(is.null(transects)){
+      return(list(success = FALSE))
+    }
     if(save.transects != ""){
       suppressMessages(write.transects(transects, paste(save.transects, "/S", rep, ".shp", sep = "")))
     }
-    if(is.null(transects)){
-      warning("No transects generated, coverage run cancelled. Please check your design.", immediate. = T, call. = FALSE)
-      return(design)
-    }
-    #Check coverage hits
     polys <- transects@cov.area.polys$geometry
     hits <- lapply(polys, FUN = inout, pts = pts)
     hits <- matrix(unlist(hits), nrow = grid.count)
     hits <- apply(hits, FUN = sum, MARGIN = 1)
-    #Allows the user to switch between coverage assessment methods
-    #if(method == "inclusion"){
-    #  hits <- ifelse(hits > 1, 1, hits)
-    #}
-    total.hits <- total.hits + hits
-    #Harvest statistics
-    #Coverered Area
-    cov.area[rep,] <- transects@cov.area
-    #Number of transects
-    transect.count[rep,] <- transects@samp.count
-    #Transect Length
+    out <- list(success = TRUE,
+                hits = hits,
+                cov.area = transects@cov.area,
+                transect.count = transects@samp.count)
     if(inherits(design, "Line.Transect.Design")){
-      line.length[rep,] <- transects@line.length
-      trackline[rep,] <- transects@trackline
-      cyclictrackline[rep,] <- transects@cyclictrackline
+      out$line.length <- transects@line.length
+      out$trackline <- transects@trackline
+      out$cyclictrackline <- transects@cyclictrackline
     }
+    return(out)
+  }
+
+  n.cores <- 1
+  if(run.parallel){
+    if(!requireNamespace("parallel", quietly = TRUE)){
+      warning("Parallel package not available. Running coverage in serial mode.", immediate. = TRUE, call. = FALSE)
+      run.parallel <- FALSE
+    }else{
+      available.cores <- parallel::detectCores()
+      if(is.na(available.cores)){
+        warning("Could not detect number of cores. Running coverage in serial mode.", immediate. = TRUE, call. = FALSE)
+        run.parallel <- FALSE
+      }else{
+        if(is.na(max.cores)){
+          n.cores <- max(1, available.cores - 1)
+        }else{
+          n.cores <- min(max.cores, available.cores)
+        }
+        if(n.cores <= 1){
+          warning("Only one core available/requested. Running coverage in serial mode.", immediate. = TRUE, call. = FALSE)
+          run.parallel <- FALSE
+        }
+      }
+    }
+  }
+
+  rep.results <- vector("list", reps)
+  if(run.parallel){
     if(!quiet){
-      percent.complete <- round((rep/reps)*100, 1)
-      message("\r  ", percent.complete, "% complete      \r", appendLF = FALSE)
+      message("Running coverage in parallel with ", n.cores, " cores; progress bar is disabled.")
+    }
+    my.cluster <- parallel::makeCluster(n.cores)
+    on.exit(parallel::stopCluster(my.cluster), add = TRUE)
+    worker.state <- list(design = design,
+                         pts = pts,
+                         grid.count = grid.count,
+                         save.transects = save.transects)
+    worker.fun <- function(i){
+      state <- get(".dssd_worker_state", envir = .GlobalEnv)
+      run.single.coverage.rep(rep = i,
+                              design = state$design,
+                              pts = state$pts,
+                              grid.count = state$grid.count,
+                              save.transects = state$save.transects)
+    }
+    parallel::clusterExport(my.cluster,
+                            varlist = c("worker.state", "worker.fun", "run.single.coverage.rep", "inout"),
+                            envir = environment())
+    parallel::clusterEvalQ(my.cluster, {
+      .dssd_worker_state <- worker.state
+      NULL
+    })
+    rep.results <- parallel::parLapplyLB(my.cluster, X = as.list(1:reps), fun = worker.fun)
+    parallel::stopCluster(my.cluster)
+    on.exit()
+  }else{
+    for(rep in 1:reps){
+      rep.results[[rep]] <- run.single.coverage.rep(rep = rep,
+                                                    design = design,
+                                                    pts = pts,
+                                                    grid.count = grid.count,
+                                                    save.transects = save.transects)
+      if(!quiet){
+        percent.complete <- round((rep/reps)*100, 1)
+        message("\r  ", percent.complete, "% complete      \r", appendLF = FALSE)
+      }
+    }
+  }
+
+  for(rep in 1:reps){
+    rep.result <- rep.results[[rep]]
+    if(is.null(rep.result) || !isTRUE(rep.result$success)){
+      warning("No transects generated, coverage run cancelled. Please check your design.", immediate. = TRUE, call. = FALSE)
+      return(design)
+    }
+    total.hits <- total.hits + rep.result$hits
+    cov.area[rep,] <- rep.result$cov.area
+    transect.count[rep,] <- rep.result$transect.count
+    if(inherits(design, "Line.Transect.Design")){
+      line.length[rep,] <- rep.result$line.length
+      trackline[rep,] <- rep.result$trackline
+      cyclictrackline[rep,] <- rep.result$cyclictrackline
     }
   }
   #Calculate summary statistics

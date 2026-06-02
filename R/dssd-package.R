@@ -21,8 +21,9 @@
 #' @aliases dssd-package dssd
 #' @author Laura Marshall <lhm@@st-and.ac.uk>
 #' @keywords package
-#' "_PACKAGE"
 #'
+"_PACKAGE"
+
 NULL
 
 

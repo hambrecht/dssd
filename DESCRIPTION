@@ -27,7 +27,6 @@ Description: Creates survey designs for distance sampling surveys. These
 BugReports: https://github.com/DistanceDevelopment/dssd/issues
 License: GPL (>=2)
 Encoding: UTF-8
-RoxygenNote: 7.3.2
 Collate: 
     'Class.Constructors.R'
     'Coverage.Grid.R'
@@ -63,3 +62,4 @@ Collate:
     'point.coords.as.dataframe.R'
     'run.coverage.R'
     'write.transects.R'
+Config/roxygen2/version: 8.0.0
