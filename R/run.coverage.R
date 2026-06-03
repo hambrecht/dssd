@@ -121,21 +121,17 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
                          pts = pts,
                          grid.count = grid.count,
                          save.transects = save.transects)
-    worker.fun <- function(i){
-      state <- get(".dssd_worker_state", envir = .GlobalEnv)
-      run.single.coverage.rep(rep = i,
-                              design = state$design,
-                              pts = state$pts,
-                              grid.count = state$grid.count,
-                              save.transects = state$save.transects)
-    }
     parallel::clusterExport(my.cluster,
-                            varlist = c("worker.state", "worker.fun", "run.single.coverage.rep", "inout"),
+                            varlist = c("worker.state", "run.single.coverage.rep", "inout"),
                             envir = environment())
-    parallel::clusterEvalQ(my.cluster, {
-      .dssd_worker_state <- worker.state
-      NULL
-    })
+    worker.fun <- function(i){
+      run.single.coverage.rep(rep = i,
+                              design = worker.state$design,
+                              pts = worker.state$pts,
+                              grid.count = worker.state$grid.count,
+                              save.transects = worker.state$save.transects)
+    }
+    parallel::clusterExport(my.cluster, varlist = "worker.fun", envir = environment())
     rep.results <- parallel::parLapplyLB(my.cluster, X = as.list(1:reps), fun = worker.fun)
     parallel::stopCluster(my.cluster)
     on.exit()
