@@ -88,24 +88,19 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
 
   n.cores <- 1
   if(run.parallel){
-    if(!requireNamespace("parallel", quietly = TRUE)){
-      warning("Parallel package not available. Running coverage in serial mode.", call. = FALSE)
+    available.cores <- parallel::detectCores()
+    if(is.na(available.cores)){
+      warning("Could not detect number of cores. Running coverage in serial mode.", call. = FALSE)
       run.parallel <- FALSE
     }else{
-      available.cores <- parallel::detectCores()
-      if(is.na(available.cores)){
-        warning("Could not detect number of cores. Running coverage in serial mode.", call. = FALSE)
-        run.parallel <- FALSE
+      if(is.na(max.cores)){
+        n.cores <- max(1, available.cores - 1)
       }else{
-        if(is.na(max.cores)){
-          n.cores <- max(1, available.cores - 1)
-        }else{
-          n.cores <- min(max.cores, available.cores)
-        }
-        if(n.cores <= 1){
-          warning("Only one core available/requested. Running coverage in serial mode.", call. = FALSE)
-          run.parallel <- FALSE
-        }
+        n.cores <- min(max.cores, available.cores)
+      }
+      if(n.cores <= 1){
+        warning("Only one core available/requested. Running coverage in serial mode.", call. = FALSE)
+        run.parallel <- FALSE
       }
     }
   }
