@@ -30,7 +30,7 @@ check.design <- function(object){
   # Only one global truncation distance should be supplied and it must be
   # numeric and greater than 0.
   if(length(object@truncation) > 1){
-    warning("You have supplied more than one truncation value. Currently the same truncation value must be applied across the entire study region. Using only the first value supplied.", call. = FALSE, immediate. = TRUE)
+    warning("You have supplied more than one truncation value. Currently the same truncation value must be applied across the entire study region. Using only the first value supplied.", call. = FALSE)
     object@truncation <- object@truncation[1]
   }else if(object@truncation <= 0){
     return("The truncation distance must be > 0.")

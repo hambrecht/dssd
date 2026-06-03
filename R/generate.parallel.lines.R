@@ -26,14 +26,14 @@ generate.parallel.lines <- function(design, strata.id, samplers, line.length, sp
     samplers <- line.length/ave.line.height
     if(samplers < 1){
       if(!quiet){
-        warning(paste("Line length is less than the average transect length cannot generate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+        warning(paste("Line length is less than the average transect length cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
       }
       return(NULL)
     }
   }else if(!by.spacing && !is.na(samplers)){
     if(samplers < 1){
       if(!quiet){
-        warning(paste("Number of samplers < 1, cannot allocate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+        warning(paste("Number of samplers < 1, cannot allocate samplers in strata ", strata.id, sep = ""), call. = F)
       }
       return(NULL)
     }
@@ -46,7 +46,7 @@ generate.parallel.lines <- function(design, strata.id, samplers, line.length, sp
   if(design@design[strata.id] == "systematic"){
     if(spacing > (bbox[["xmax"]]-bbox[["xmin"]])){
       if(!quiet){
-        warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+        warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
       }
       return(NULL)
     }
@@ -111,7 +111,7 @@ generate.parallel.lines <- function(design, strata.id, samplers, line.length, sp
         areas <- unlist(lapply(polys.tmp[intsec], sf::st_area))
         to.rem <- c(to.rem, intsec[which(areas == min(areas))])
         #if(min(areas) > sf::st_area(rot.strata)/50000){
-        #  warning("Removing covered area greater than 50,000th of the strata area.", immediate. = TRUE, call. = FALSE)
+        #  warning("Removing covered area greater than 50,000th of the strata area.", call. = FALSE)
         #}
       }
     }

@@ -50,7 +50,7 @@ setMethod(
       if(!is.na(tmp)){
         if(is.null(tmp$units)){
           units <- units
-          warning("Coordinate reference system detected but no units can be found. Has this shape been projected - shapefiles must be projected on to a flat plane before surveys are designed. dssd is unstable and may generate errors when working with unprojected regions.", call. = FALSE, immediate. = TRUE)
+          warning("Coordinate reference system detected but no units can be found. Has this shape been projected - shapefiles must be projected on to a flat plane before surveys are designed. dssd is unstable and may generate errors when working with unprojected regions.", call. = FALSE)
         }else
           units <- tmp$units
       }else{
@@ -137,7 +137,7 @@ setMethod(
   definition=function(x, y, main = "", region.col = "default", strata = "all", line.col = gray(.2), legend.params = list()){
     # Warn of depreications
     if(length(legend.params) > 0){
-      warning("legend.params argument is deprecated since version 0.2.3", immediate. = TRUE, call. = FALSE)
+      warning("legend.params argument is deprecated since version 0.2.3", call. = FALSE)
     }
     # Tidy up space to keep ggplot happy
     suppressWarnings(invisible(gc()))
@@ -213,7 +213,7 @@ setMethod(
   definition=function(x, y, main = "", region.col = "default", strata = "all", line.col = gray(.2), col = "blue", lwd = 1, covered.area = FALSE, legend.params = list()){
     # Warn of depreications
     if(length(legend.params) > 0){
-      warning("legend.params argument is deprecated since version 0.2.3", immediate. = TRUE, call. = FALSE)
+      warning("legend.params argument is deprecated since version 0.2.3", call. = FALSE)
     }
     # Tidy up space to keep ggplot happy
     suppressWarnings(invisible(gc()))

@@ -233,7 +233,7 @@ gt.LT.fun.body <- function(object, quiet, ...){
   #Need to retain transect IDs as well as strata for lines
   if(length(transects) == 0){
     if(!quiet){
-      warning("No samplers generated.", immediate. = T, call. = FALSE)
+      warning("No samplers generated.", call. = FALSE)
     }
     return(NULL)
   }

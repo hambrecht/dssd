@@ -27,7 +27,7 @@ check.shape <- function(sf.shape, dist.for.win){
       if(any(!compare)){
         #Re-order strata
         new.shape <-sf.shape[index, ]
-        warning("The LinkID values were not in sequential order in the shapefile attribute table, dssd is reordering the strata to match that which Distance for Windows uses. This is a necessary step if you are running simulations from Distance for Windows. If you are running simulations directly in R and would like to switch this option off please set dist.for.win to FALSE in make.region.", immediate. = TRUE, call. = FALSE)
+        warning("The LinkID values were not in sequential order in the shapefile attribute table, dssd is reordering the strata to match that which Distance for Windows uses. This is a necessary step if you are running simulations from Distance for Windows. If you are running simulations directly in R and would like to switch this option off please set dist.for.win to FALSE in make.region.", call. = FALSE)
         return(new.shape)
       }else{
         #If they are in the right order already don't need to do anything

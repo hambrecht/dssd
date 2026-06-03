@@ -43,7 +43,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
   }
   #Check that the coverage grid has a grid!
   if(length(design@coverage.grid@grid) == 0){
-    warning("No coverage grid, generating a default grid with 1000 points.", immediate. = TRUE, call. = FALSE)
+    warning("No coverage grid, generating a default grid with 1000 points.", call. = FALSE)
     design@coverage.grid <- make.coverage(region = design@region)
   }
   coverage <- design@coverage.grid
@@ -89,12 +89,12 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
   n.cores <- 1
   if(run.parallel){
     if(!requireNamespace("parallel", quietly = TRUE)){
-      warning("Parallel package not available. Running coverage in serial mode.", immediate. = TRUE, call. = FALSE)
+      warning("Parallel package not available. Running coverage in serial mode.", call. = FALSE)
       run.parallel <- FALSE
     }else{
       available.cores <- parallel::detectCores()
       if(is.na(available.cores)){
-        warning("Could not detect number of cores. Running coverage in serial mode.", immediate. = TRUE, call. = FALSE)
+        warning("Could not detect number of cores. Running coverage in serial mode.", call. = FALSE)
         run.parallel <- FALSE
       }else{
         if(is.na(max.cores)){
@@ -103,7 +103,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
           n.cores <- min(max.cores, available.cores)
         }
         if(n.cores <= 1){
-          warning("Only one core available/requested. Running coverage in serial mode.", immediate. = TRUE, call. = FALSE)
+          warning("Only one core available/requested. Running coverage in serial mode.", call. = FALSE)
           run.parallel <- FALSE
         }
       }
@@ -156,7 +156,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
   for(rep in 1:reps){
     rep.result <- rep.results[[rep]]
     if(is.null(rep.result) || !isTRUE(rep.result$success)){
-      warning("No transects generated, coverage run cancelled. Please check your design.", immediate. = TRUE, call. = FALSE)
+      warning("No transects generated, coverage run cancelled. Please check your design.", call. = FALSE)
       return(design)
     }
     total.hits <- total.hits + rep.result$hits

@@ -25,14 +25,14 @@ generate.segmented.grid <- function(design, strata.id, samplers, line.length, sp
     samplers <- line.length/seg.length
     if(samplers < 1){
       if(!quiet){
-        warning(paste("Line length is less than the average transect length cannot generate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+        warning(paste("Line length is less than the average transect length cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
       }
       return(NULL)
     }
   }else if(!by.spacing && !is.na(samplers)){
     if(samplers < 1){
       if(!quiet){
-        warning(paste("Number of samplers < 1, cannot allocate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+        warning(paste("Number of samplers < 1, cannot allocate samplers in strata ", strata.id, sep = ""), call. = F)
       }
       return(NULL)
     }
@@ -50,13 +50,13 @@ generate.segmented.grid <- function(design, strata.id, samplers, line.length, sp
   #Check spacings are reasonable
   if(spacing.x > (bbox[["xmax"]]-bbox[["xmin"]])){
     if(!quiet){
-      warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+      warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
     }
     return(NULL)
   }
   if(spacing.x > (bbox[["ymax"]]-bbox[["ymin"]])){
     if(!quiet){
-      warning(paste("Spacing larger than y-range not generating samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+      warning(paste("Spacing larger than y-range not generating samplers in strata ", strata.id, sep = ""), call. = F)
     }
     return(NULL)
   }
@@ -92,7 +92,7 @@ generate.segmented.grid <- function(design, strata.id, samplers, line.length, sp
   to.keep <- to.keep[is.over.threshold]
   #Check there are some transects
   if(length(to.keep) == 0){
-    warning(paste("No transects generated in stratum ", strata.id, sep = ""), immediate. = TRUE, call. = FALSE)
+    warning(paste("No transects generated in stratum ", strata.id, sep = ""), call. = FALSE)
     return(NULL)
   }
   #Calculate covered region - do it here as easier before unrotating!
@@ -138,7 +138,7 @@ generate.segmented.grid <- function(design, strata.id, samplers, line.length, sp
         areas <- unlist(lapply(polys.tmp[intsec], sf::st_area))
         to.rem <- c(to.rem, intsec[which(areas == min(areas))])
         #if(min(areas) > sf::st_area(rot.strata)/50000){
-        #  warning("Removing covered area greater than 50,000th of the strata area.", immediate. = TRUE, call. = FALSE)
+        #  warning("Removing covered area greater than 50,000th of the strata area.", call. = FALSE)
         #}
       }
     }

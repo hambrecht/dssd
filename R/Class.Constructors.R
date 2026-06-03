@@ -68,7 +68,7 @@ make.region <- function(region.name = "region",
     }
     if(length(strata.name) < length(shape) && length(shape) > 1){
       strata.name <- LETTERS[1:length(shape)]
-      warning("Automatically naming strata as insufficient strata names provided. Assigned strata names:", paste(strata.name, collapse = ", "), call. = F, immediate. = T)
+      warning("Automatically naming strata as insufficient strata names provided. Assigned strata names:", paste(strata.name, collapse = ", "), call. = F)
     }else if(length(strata.name) == 0 && length(shape) == 1){
       strata.name <- region.name
     }else if(length(strata.name) > length(shape)){
@@ -99,7 +99,7 @@ make.region <- function(region.name = "region",
   }else if(strata.count != length(strata.name)){
     if(length(sf.shape) <= 26){
       strata.name <- LETTERS[1:length(sf.shape[[sf.column]])]
-      warning("Automatically naming strata as no (or incorrect number of) strata names provided. Assigned strata names: ", paste(strata.name, collapse = ", "), call. = F, immediate. = T)
+      warning("Automatically naming strata as no (or incorrect number of) strata names provided. Assigned strata names: ", paste(strata.name, collapse = ", "), call. = F)
     }else{
       stop("Too many strata (>26) for strata names to be assigned default names, please provide the correct number of strata names.", call. = FALSE)
     }
@@ -375,7 +375,7 @@ make.design <- function(region = make.region(), transect.type = "line", design =
   }else if(transect.type %in% c("Point", "point", "Point Transect", "point transect")){
     # Check line length not supplied
     if(length(line.length) > 0){
-      warning("Argument line.length not applicable to point transect designs.", immediate. = TRUE, call. = FALSE)
+      warning("Argument line.length not applicable to point transect designs.", call. = FALSE)
     }
     #Create point transect object
     design <- new(Class="Point.Transect.Design", region, truncation, design, spacing, samplers, effort.allocation, design.angle, edge.protocol, coverage.grid)
@@ -423,7 +423,7 @@ make.coverage <- function(region = make.region(),
   }
   if(length(spacing) > 0 && length(n.grid.points) > 0){
     if(n.grid.points != 1000){
-      warning("Both spacing and n.grid.points specified, n.grid.point will be disregarded.", call. = FALSE, immediate. = TRUE)
+      warning("Both spacing and n.grid.points specified, n.grid.point will be disregarded.", call. = FALSE)
     }
     n.grid.points <- numeric(0)
   }

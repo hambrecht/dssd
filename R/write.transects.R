@@ -81,7 +81,7 @@
 write.transects <- function(object, dsn, layer = NULL, dataset.options = character(0), overwrite = FALSE, proj4string = character(0)){
   if(length(proj4string) > 0){
     if(is.na(sf::st_crs(object@samplers))){
-      warning("No coordinate system found for survey transects. A coordinate system is only specified for transects if one was specified for the survey region. Cannot project survey transects.", immediate. = TRUE, call. = FALSE)
+      warning("No coordinate system found for survey transects. A coordinate system is only specified for transects if one was specified for the survey region. Cannot project survey transects.", call. = FALSE)
     }else{
       object@samplers <- sf::st_transform(object@samplers, proj4string)
     }

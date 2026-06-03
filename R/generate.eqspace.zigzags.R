@@ -26,7 +26,7 @@ generate.eqspace.zigzags <- function(design, strata.id, samplers, line.length, s
     if(design@design[strata.id] == "eszigzag"){
       if(line.length < width){
         if(!quiet){
-          warning("Line length in strata ", strata.id, " is not sufficient to carry out an equal spaced zigzag design. No samplers generated for this strata.", immediate. = TRUE, call. = FALSE)
+          warning("Line length in strata ", strata.id, " is not sufficient to carry out an equal spaced zigzag design. No samplers generated for this strata.", call. = FALSE)
         }
         return(NULL)
       }
@@ -34,7 +34,7 @@ generate.eqspace.zigzags <- function(design, strata.id, samplers, line.length, s
     }else{
       if(line.length/2 < width){
         if(!quiet){
-          warning("Line length in strata ", strata.id, " is not sufficient to carry out a complementary equal spaced zigzag design. No samplers generated for this strata.", immediate. = TRUE, call. = FALSE)
+          warning("Line length in strata ", strata.id, " is not sufficient to carry out a complementary equal spaced zigzag design. No samplers generated for this strata.", call. = FALSE)
         }
         return(NULL)
       }
@@ -50,7 +50,7 @@ generate.eqspace.zigzags <- function(design, strata.id, samplers, line.length, s
   }
   if(spacing > (bbox[["xmax"]]-bbox[["xmin"]])){
     if(!quiet){
-      warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), immediate. = T, call. = F)
+      warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
     }
     return(NULL)
   }
@@ -181,7 +181,7 @@ generate.eqspace.zigzags <- function(design, strata.id, samplers, line.length, s
         areas <- unlist(lapply(polys.tmp[intsec], sf::st_area))
         to.rem <- c(to.rem, intsec[which(areas == min(areas))])
         #if(min(areas) > sf::st_area(rot.strata)/50000){
-        #  warning("Removing covered area greater than 50,000th of the strata area.", immediate. = TRUE, call. = FALSE)
+        #  warning("Removing covered area greater than 50,000th of the strata area.", call. = FALSE)
         #}
       }
     }

@@ -23,7 +23,7 @@ generate.systematic.points <- function(design, strata.id, spacing, samplers, cov
   #Check spacing is appropriate
   if(sspace > (bbox[["xmax"]]-bbox[["xmin"]]) || sspace > (bbox[["ymax"]]-bbox[["ymin"]])){
     if(!quiet){
-      warning(paste("The spacing allocated to strata ", strata.id, " is larger than either one or both of the x / y dimensions of the region. Cannot generate samplers in this strata.", sep = ""), call. = FALSE, immediate. = TRUE)
+      warning(paste("The spacing allocated to strata ", strata.id, " is larger than either one or both of the x / y dimensions of the region. Cannot generate samplers in this strata.", sep = ""), call. = FALSE)
     }
     return(NULL)
   }else{

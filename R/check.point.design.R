@@ -81,7 +81,7 @@ check.point.design <- function(object){
       global.value <- TRUE
       spacing <- rep(spacing, strata.count)
       if(samplers.len > 0){
-        warning("Multiple global effort parameters have been supplied (spacing, samplers). Samplers will be ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Multiple global effort parameters have been supplied (spacing, samplers). Samplers will be ignored.", call. = FALSE)
         samplers <- numeric(0)
       }
     }else if(samplers.len == 1){
@@ -108,14 +108,14 @@ check.point.design <- function(object){
         if(is.na(samplers[i])){
           return(paste("Spacing is not a valid effort argument for the random design in stratum ", i, ", please supply samplers", sep = ""))
         }else{
-          warning(paste("Spacing is not a valid effort argument for the random design in stratum ", i, ", it will be ignored.", sep = ""), immediate. = TRUE, call. = FALSE)
+          warning(paste("Spacing is not a valid effort argument for the random design in stratum ", i, ", it will be ignored.", sep = ""), call. = FALSE)
           spacing[i] <- NA
         }
       }
       # Now check that there is an effort parameter defined and give a warning if
       # multiple effort measures have been supplied.
       if(!is.na(samplers[i]) && !is.na(spacing[i])){
-        warning("Both spacing and samplers have been supplied for stratum ",i,", samplers argument will be ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Both spacing and samplers have been supplied for stratum ",i,", samplers argument will be ignored.", call. = FALSE)
         samplers[i] <- NA
       }
     }
@@ -132,15 +132,15 @@ check.point.design <- function(object){
 
   # Check if effort.allocation is redundant
   if(any(samplers.len > 1) && length(object@effort.allocation) > 1){
-    warning("Effort allocation argument redundant as you have supplied stratum specific effort values, it will be ignored.", immediate. = TRUE, call. = FALSE)
+    warning("Effort allocation argument redundant as you have supplied stratum specific effort values, it will be ignored.", call. = FALSE)
     object@effort.allocation <- numeric(0)
   }
   if(strata.count ==1  && length(object@effort.allocation) > 0){
-    warning("Effort allocation argument redundant as there is only one stratum, it will be ignored.", immediate. = TRUE, call. = FALSE)
+    warning("Effort allocation argument redundant as there is only one stratum, it will be ignored.", call. = FALSE)
     object@effort.allocation <- numeric(0)
   }
   if(spacing.len >= 1 && length(object@effort.allocation) != 0){
-    warning("Effort allocation not applicable when effort is determined by spacing, it will be ignored.", immediate. = TRUE, call. = FALSE)
+    warning("Effort allocation not applicable when effort is determined by spacing, it will be ignored.", call. = FALSE)
     object@effort.allocation <- numeric(0)
   }
 

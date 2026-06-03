@@ -166,7 +166,7 @@ setMethod(
     }
     if(length(transects) == 0){
       if(!quiet){
-        warning("No samplers generated.", immediate. = T, call. = FALSE)
+        warning("No samplers generated.", call. = FALSE)
       }
       index <- numeric(0)
     }else{

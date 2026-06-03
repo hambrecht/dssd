@@ -47,7 +47,7 @@ check.line.design <- function(object){
       return("NA values have been provided for segment length in strata where a segmented grid design has been selected.")
     }
     if(any(!is.na(object@seg.length[index.neg]))){
-      warning("Non NA values have been provided for segment length in strata where a segmented grid design was NOT selected. These vaues will be ignored.", immediate. = TRUE, call. = FALSE)
+      warning("Non NA values have been provided for segment length in strata where a segmented grid design was NOT selected. These vaues will be ignored.", call. = FALSE)
       object@seg.length[index.neg] <- NA
     }
 
@@ -74,7 +74,7 @@ check.line.design <- function(object){
       return("NA values have been provided for segment threshold in strata where a segmented grid design has been selected.")
     }
     if(any(!is.na(object@seg.threshold[index.neg]))){
-      warning("Non NA values have been provided for segment threshold in strata where a segmented grid design was NOT selected. These vaues will be ignored.", immediate. = TRUE, call. = FALSE)
+      warning("Non NA values have been provided for segment threshold in strata where a segmented grid design was NOT selected. These vaues will be ignored.", call. = FALSE)
       object@seg.threshold[index.neg] <- NA
     }
   }
@@ -104,7 +104,7 @@ check.line.design <- function(object){
       return("NA values have been provided for bounding shape in strata where a zigzag design has been selected. Please supply valid values.")
     }
     if(any(!is.na(object@bounding.shape[index.neg]))){
-      warning("Non NA values have been provided for bounding shape in strata where a zigzag design was NOT selected. These vaues will be ignored.", immediate. = TRUE, call. = FALSE)
+      warning("Non NA values have been provided for bounding shape in strata where a zigzag design was NOT selected. These vaues will be ignored.", call. = FALSE)
       object@bounding.shape[index.neg] <- NA
     }
   }
@@ -182,14 +182,14 @@ check.line.design <- function(object){
       global.value <- TRUE
       spacing <- rep(object@spacing, strata.count)
       if(line.len > 0 || samplers.len > 0){
-        warning("Multiple global effort parameters have been supplied (spacing, line length, samplers). Spacing will be used and the others ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Multiple global effort parameters have been supplied (spacing, line length, samplers). Spacing will be used and the others ignored.", call. = FALSE)
         line.length <- numeric(0)
         samplers <- numeric(0)
       }
     }else if(line.len == 1){
       global.value <- TRUE
       if(spacing.len > 0){
-        warning("Both line length and samplers have been provided. The global line length will be used and samplers ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Both line length and samplers have been provided. The global line length will be used and samplers ignored.", call. = FALSE)
         samplers <- numeric(0)
       }
     }else if(samplers.len == 1){
@@ -216,24 +216,24 @@ check.line.design <- function(object){
         if(is.na(line.length[i]) && is.na(samplers[i])){
           return(paste("Spacing is not a valid effort argument for the random design in stratum ", i, ", please supply line length or samplers", sep = ""))
         }else{
-          warning(paste("Spacing is not a valid effort argument for the random design in stratum ", i, ", it will be ignored.", sep = ""), immediate. = TRUE, call. = FALSE)
+          warning(paste("Spacing is not a valid effort argument for the random design in stratum ", i, ", it will be ignored.", sep = ""), call. = FALSE)
           spacing[i] <- NA
         }
       }
       # Now check that there is an effort parameter defined and give a warning if
       # multiple effort measures have been supplied.
       if(!is.na(samplers[i]) && !is.na(spacing[i]) && !is.na(line.length[i])){
-        warning("Spacing, samplers and line.length have been supplied for stratum ",i,", samplers and line.length arguments will be ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Spacing, samplers and line.length have been supplied for stratum ",i,", samplers and line.length arguments will be ignored.", call. = FALSE)
         samplers[i] <- NA
         line.length[i] <- NA
       }else if(!is.na(samplers[i]) && !is.na(spacing[i])){
-        warning("Both spacing and samplers have been supplied for stratum ",i,", samplers argument will be ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Both spacing and samplers have been supplied for stratum ",i,", samplers argument will be ignored.", call. = FALSE)
         samplers[i] <- NA
       }else if(!is.na(line.length[i]) && !is.na(spacing[i])){
-        warning("Both spacing and line.length have been supplied for stratum  ",i,", line.length argument will be ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Both spacing and line.length have been supplied for stratum  ",i,", line.length argument will be ignored.", call. = FALSE)
         line.length[i] <- NA
       }else if(!is.na(line.length[i]) && !is.na(samplers[i])){
-        warning("Both sampers and line.length have been supplied for stratum ",i,", samplers argument will be ignored.", immediate. = TRUE, call. = FALSE)
+        warning("Both sampers and line.length have been supplied for stratum ",i,", samplers argument will be ignored.", call. = FALSE)
         samplers[i] <- NA
       }
     }
@@ -258,11 +258,11 @@ check.line.design <- function(object){
 
   # Check if effort.allocation is redundant
   if(any(c(samplers.len, line.len) > 1) && length(object@effort.allocation) > 1){
-    warning("Effort allocation argument redundant as you have supplied stratum specific effort values, it will be ignored.", immediate. = TRUE, call. = FALSE)
+    warning("Effort allocation argument redundant as you have supplied stratum specific effort values, it will be ignored.", call. = FALSE)
     object@effort.allocation <- numeric(0)
   }
   if(strata.count == 1  && length(object@effort.allocation) > 0){
-    warning("Effort allocation argument redundant as there is only one stratum, it will be ignored.", immediate. = TRUE, call. = FALSE)
+    warning("Effort allocation argument redundant as there is only one stratum, it will be ignored.", call. = FALSE)
     object@effort.allocation <- numeric(0)
   }
   if(strata.count > 1 && # multiple strata
@@ -271,10 +271,10 @@ check.line.design <- function(object){
      !inherits(object, "Segment.Transect.Design") && # not a segmented design
      # there are multiple designs or the design is random
      (length(unique(object@design)) > 1 || "random" %in% object@design)){
-    warning("The default allocation of samplers to strata (i.e. the number of samplers per stratum are in proportion to stratum areas) may lead to an unequal effort design as average sampler lengths could vary between strata.", immediate. = TRUE, call. = FALSE)
+    warning("The default allocation of samplers to strata (i.e. the number of samplers per stratum are in proportion to stratum areas) may lead to an unequal effort design as average sampler lengths could vary between strata.", call. = FALSE)
   }
   if(spacing.len >= 1 && length(object@effort.allocation) != 0){
-    warning("Effort allocation not applicable when effort is determined by spacing, it will be ignored.", immediate. = TRUE, call. = FALSE)
+    warning("Effort allocation not applicable when effort is determined by spacing, it will be ignored.", call. = FALSE)
     object@effort.allocation <- numeric(0)
   }
 

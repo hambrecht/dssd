@@ -70,7 +70,7 @@ setMethod(
       sf.column <- attr(x@grid, "sf_column")
       plot(x@grid[[sf.column]], add = add, col = col, pch = pch)
     }else{
-      warning("No grid points to plot", call. = F, immediate. = F)
+      warning("No grid points to plot", call. = F)
     }
     invisible(x)
   }

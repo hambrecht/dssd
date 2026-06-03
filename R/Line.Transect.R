@@ -91,7 +91,7 @@ setMethod(
       #}
       plot(x@samplers[[sf.column.samps]], add = add, col = col, lwd = lwd)
     }else{
-      warning("No samplers to plot", call. = F, immediate. = F)
+      warning("No samplers to plot", call. = F)
     }
     invisible(x)
   }
