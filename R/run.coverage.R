@@ -112,6 +112,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
     }
     my.cluster <- parallel::makeCluster(n.cores)
     on.exit(parallel::stopCluster(my.cluster), add = TRUE)
+    parallel::clusterEvalQ(my.cluster, library(dssd))
     worker.state <- list(design = design,
                          pts = pts,
                          grid.count = grid.count,
