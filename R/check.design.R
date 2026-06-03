@@ -15,7 +15,7 @@ check.design <- function(object){
   # Effort allocation values if supplied should sum to 1 and there should
   # be no missing values and one value per stratum.
   if(length(object@effort.allocation) > 0){
-    if(sum(object@effort.allocation, na.rm = T) != 1){
+    if(sum(object@effort.allocation, na.rm = TRUE) != 1){
       return("Effort allocation should either be omitted or sum to 1.")
     }
     if(any(is.na(object@effort.allocation))){

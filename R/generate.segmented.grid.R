@@ -25,14 +25,14 @@ generate.segmented.grid <- function(design, strata.id, samplers, line.length, sp
     samplers <- line.length/seg.length
     if(samplers < 1){
       if(!quiet){
-        warning(paste("Line length is less than the average transect length cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
+        warning(paste("Line length is less than the average transect length cannot generate samplers in strata ", strata.id, sep = ""), call. = FALSE)
       }
       return(NULL)
     }
   }else if(!by.spacing && !is.na(samplers)){
     if(samplers < 1){
       if(!quiet){
-        warning(paste("Number of samplers < 1, cannot allocate samplers in strata ", strata.id, sep = ""), call. = F)
+        warning(paste("Number of samplers < 1, cannot allocate samplers in strata ", strata.id, sep = ""), call. = FALSE)
       }
       return(NULL)
     }
@@ -50,13 +50,13 @@ generate.segmented.grid <- function(design, strata.id, samplers, line.length, sp
   #Check spacings are reasonable
   if(spacing.x > (bbox[["xmax"]]-bbox[["xmin"]])){
     if(!quiet){
-      warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), call. = F)
+      warning(paste("Spacing larger than x-range cannot generate samplers in strata ", strata.id, sep = ""), call. = FALSE)
     }
     return(NULL)
   }
   if(spacing.x > (bbox[["ymax"]]-bbox[["ymin"]])){
     if(!quiet){
-      warning(paste("Spacing larger than y-range not generating samplers in strata ", strata.id, sep = ""), call. = F)
+      warning(paste("Spacing larger than y-range not generating samplers in strata ", strata.id, sep = ""), call. = FALSE)
     }
     return(NULL)
   }

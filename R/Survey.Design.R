@@ -148,54 +148,54 @@ setMethod(
       title <- paste("\n   Strata ", strata.names[strat], ":", sep = "")
       len.title <- nchar(title)
       underline <- paste("   ", paste(rep("_", (len.title-3)), collapse = ""), sep = "")
-      cat(title, fill = T)
-      cat(underline, fill = T)
+      cat(title, fill = TRUE)
+      cat(underline, fill = TRUE)
       design <- switch(object@design[strat],
                        "random" = "randomly located transects",
                        "systematic" = "systematically spaced transects",
                        "eszigzag" = "equal spaced zigzag",
                        "eszigzagcom" = "complementaty equal spaced zigzags",
                        "segmentedgrid" = "segmented grid")
-      cat("Design: ", design, fill = T)
+      cat("Design: ", design, fill = TRUE)
       if(object@design[strat] %in% c("systematic", "eszigzag", "eszigzagcom", "segmentedgrid")){
-        cat("Spacing: ", object@spacing[strat], fill = T)
+        cat("Spacing: ", object@spacing[strat], fill = TRUE)
       }
       if(length(object@samplers) == 1){
-        cat("Number of samplers: ", object@samplers, " (shared across strata)", fill = T)
+        cat("Number of samplers: ", object@samplers, " (shared across strata)", fill = TRUE)
       }else{
-        cat("Number of samplers: ", object@samplers[strat], fill = T)
+        cat("Number of samplers: ", object@samplers[strat], fill = TRUE)
       }
       line.length <- try(object@line.length, silent = TRUE)
       if(!inherits(line.length, "try-error")){
         if(length(line.length) == 1){
-          cat("Line length: ", line.length, " (shared across strata)", fill = T)
+          cat("Line length: ", line.length, " (shared across strata)", fill = TRUE)
         }else if(length(line.length) == length(strata.names)){
-          cat("Line length: ", line.length[strat], fill = T)
+          cat("Line length: ", line.length[strat], fill = TRUE)
         }else{
-          cat("Line length: NA", fill = T)
+          cat("Line length: NA", fill = TRUE)
         }
       }
       if(object@design[strat] %in% c("segmentedgrid")){
-        cat("Segment length: ", object@seg.length[strat], fill = T)
-        cat("Segment threshold: ", object@seg.threshold[strat], fill = T)
+        cat("Segment length: ", object@seg.length[strat], fill = TRUE)
+        cat("Segment threshold: ", object@seg.threshold[strat], fill = TRUE)
       }
-      cat("Design angle: ", object@design.angle[strat], fill = T)
-      cat("Edge protocol: ", object@edge.protocol[strat], fill = T)
+      cat("Design angle: ", object@design.angle[strat], fill = TRUE)
+      cat("Edge protocol: ", object@edge.protocol[strat], fill = TRUE)
     }
     dp <- ifelse(any(object@region@area < 10), 3, 0)
-    cat("\nStrata areas: ", paste(round(object@region@area, dp), collapse = ", "), fill = T)
+    cat("\nStrata areas: ", paste(round(object@region@area, dp), collapse = ", "), fill = TRUE)
     if(length(object@region@units) > 0){
       if(!inherits(line.length, "try-error")){
-        cat("Region and effort units: ", object@region@units, fill = T)
+        cat("Region and effort units: ", object@region@units, fill = TRUE)
       }else{
-        cat("Region units: ", object@region@units, fill = T)
+        cat("Region units: ", object@region@units, fill = TRUE)
       }
     }
     if(length(object@effort.allocation) > 0){
-      cat("Effort allocation across strata: ", paste(object@effort.allocation*100, collapse = "%, "), "%", sep = "", fill = T)
+      cat("Effort allocation across strata: ", paste(object@effort.allocation*100, collapse = "%, "), "%", sep = "", fill = TRUE)
     }
     if(length(object@coverage.scores) > 0){
-      cat("Coverage Simulation repetitions: ", object@coverage.reps, fill = T)
+      cat("Coverage Simulation repetitions: ", object@coverage.reps, fill = TRUE)
     }
 
     design.stats <- object@design.statistics
@@ -208,31 +208,31 @@ setMethod(
                      "line.length" = "Line length:",
                      "trackline" = "Trackline length:",
                      "cyclictrackline" = "Cyclic trackline length:")
-     cat("\n   ", title, fill = T)
+     cat("\n   ", title, fill = TRUE)
      underline <- paste(rep("", (nchar(title)-3)), collapse = "")
-     cat("   ", underline, fill = T)
+     cat("   ", underline, fill = TRUE)
      print(design.stats[[i]])
     }
     if(!all(is.na(object@coverage.scores))){
       title <- "Coverage Score Summary:"
-      cat("\n   ", title, fill = T)
+      cat("\n   ", title, fill = TRUE)
       underline <- paste(rep("", (nchar(title)-3)), collapse = "")
-      cat("   ", underline, fill = T)
+      cat("   ", underline, fill = TRUE)
       cov.scores <- array(NA, dim = c(5, (length(strata.names)+1)), dimnames = list(c("Minimum", "Mean", "Median", "Maximum", "sd"), c(strata.names, "Total")))
       for(i in seq(along = strata.names)){
         cov.strat <- get.coverage(object, i)
-        cov.scores["Minimum",i] <- min(cov.strat, na.rm = T)
-        cov.scores["Mean",i] <- mean(cov.strat, na.rm = T)
-        cov.scores["Median",i] <- median(cov.strat, na.rm = T)
-        cov.scores["Maximum",i] <- max(cov.strat, na.rm = T)
-        cov.scores["sd",i] <- sd(cov.strat, na.rm = T)
+        cov.scores["Minimum",i] <- min(cov.strat, na.rm = TRUE)
+        cov.scores["Mean",i] <- mean(cov.strat, na.rm = TRUE)
+        cov.scores["Median",i] <- median(cov.strat, na.rm = TRUE)
+        cov.scores["Maximum",i] <- max(cov.strat, na.rm = TRUE)
+        cov.scores["sd",i] <- sd(cov.strat, na.rm = TRUE)
       }
       #Add in total column
-      cov.scores["Minimum","Total"] <- min(object@coverage.scores, na.rm = T)
-      cov.scores["Mean","Total"] <- mean(object@coverage.scores, na.rm = T)
-      cov.scores["Median","Total"] <- median(object@coverage.scores, na.rm = T)
-      cov.scores["Maximum","Total"] <- max(object@coverage.scores, na.rm = T)
-      cov.scores["sd","Total"] <- sd(object@coverage.scores, na.rm = T)
+      cov.scores["Minimum","Total"] <- min(object@coverage.scores, na.rm = TRUE)
+      cov.scores["Mean","Total"] <- mean(object@coverage.scores, na.rm = TRUE)
+      cov.scores["Median","Total"] <- median(object@coverage.scores, na.rm = TRUE)
+      cov.scores["Maximum","Total"] <- max(object@coverage.scores, na.rm = TRUE)
+      cov.scores["sd","Total"] <- sd(object@coverage.scores, na.rm = TRUE)
       print(cov.scores)
     }
   }

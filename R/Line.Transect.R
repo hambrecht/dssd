@@ -91,7 +91,7 @@ setMethod(
       #}
       plot(x@samplers[[sf.column.samps]], add = add, col = col, lwd = lwd)
     }else{
-      warning("No samplers to plot", call. = F)
+      warning("No samplers to plot", call. = FALSE)
     }
     invisible(x)
   }
@@ -113,45 +113,45 @@ setMethod(
       title <- paste("\n   Strata ", strata.names[strat], ":", sep = "")
       len.title <- nchar(title)
       underline <- paste("   ", paste(rep("_", (len.title-3)), collapse = ""), sep = "")
-      cat(title, fill = T)
-      cat(underline, fill = T)
+      cat(title, fill = TRUE)
+      cat(underline, fill = TRUE)
       design <- switch(object@design[strat],
                        "random" = "randomly located transects",
                        "systematic" = "systematically spaced parallel transects",
                        "eszigzag" = "equal spaced zigzag",
                        "eszigzagcom" = "complementaty equal spaced zigzags",
                        "segmentedgrid" = "segmented grid")
-      cat("Design: ", design, fill = T)
+      cat("Design: ", design, fill = TRUE)
       if(object@design[strat] %in% c("systematic", "eszigzag", "eszigzagcom", "segmentedgrid")){
-        cat("Spacing: ", object@spacing[strat], fill = T)
+        cat("Spacing: ", object@spacing[strat], fill = TRUE)
       }
-      cat("Line length:", object@line.length[strat], fill = T)
+      cat("Line length:", object@line.length[strat], fill = TRUE)
       if(object@design[strat] == "segmentedgrid"){
-        cat("Segment length: ", object@seg.length[strat], fill = T)
-        cat("Segment threshold: ", object@seg.threshold[strat], fill = T)
+        cat("Segment length: ", object@seg.length[strat], fill = TRUE)
+        cat("Segment threshold: ", object@seg.threshold[strat], fill = TRUE)
       }
-      cat("Trackline length:", object@trackline[strat], fill = T)
-      cat("Cyclic trackline length:", object@cyclictrackline[strat], fill = T)
-      cat("Number of samplers: ", object@samp.count[strat], fill = T)
-      cat("Design angle: ", object@design.angle[strat], fill = T)
-      cat("Edge protocol: ", object@edge.protocol[strat], fill = T)
-      cat("Covered area: ", object@cov.area[strat], fill = T)
-      cat("Strata coverage: ", round((object@cov.area[strat]/object@strata.area[strat])*100,2), "%", fill = T, sep = "")
-      cat("Strata area: ", object@strata.area[strat], fill = T)
+      cat("Trackline length:", object@trackline[strat], fill = TRUE)
+      cat("Cyclic trackline length:", object@cyclictrackline[strat], fill = TRUE)
+      cat("Number of samplers: ", object@samp.count[strat], fill = TRUE)
+      cat("Design angle: ", object@design.angle[strat], fill = TRUE)
+      cat("Edge protocol: ", object@edge.protocol[strat], fill = TRUE)
+      cat("Covered area: ", object@cov.area[strat], fill = TRUE)
+      cat("Strata coverage: ", round((object@cov.area[strat]/object@strata.area[strat])*100,2), "%", fill = TRUE, sep = "")
+      cat("Strata area: ", object@strata.area[strat], fill = TRUE)
     }
     #Now print totals
-    cat("\n   Study Area Totals:", fill = T)
-    cat("   _________________", fill = T)
-    cat("Line length:", sum(object@line.length, na.rm = T), fill = T)
-    cat("Trackline length:", sum(object@trackline, na.rm = T), fill = T)
-    cat("Cyclic trackline length:", sum(object@cyclictrackline, na.rm = T), fill = T)
-    cat("Number of samplers: ", sum(object@samp.count, na.rm = T), fill = T)
+    cat("\n   Study Area Totals:", fill = TRUE)
+    cat("   _________________", fill = TRUE)
+    cat("Line length:", sum(object@line.length, na.rm = TRUE), fill = TRUE)
+    cat("Trackline length:", sum(object@trackline, na.rm = TRUE), fill = TRUE)
+    cat("Cyclic trackline length:", sum(object@cyclictrackline, na.rm = TRUE), fill = TRUE)
+    cat("Number of samplers: ", sum(object@samp.count, na.rm = TRUE), fill = TRUE)
     if(length(object@effort.allocation) > 0){
-      cat("Effort allocation: ", paste(object@effort.allocation*100, collapse = "%, "), "%", fill = T, sep = "")
+      cat("Effort allocation: ", paste(object@effort.allocation*100, collapse = "%, "), "%", fill = TRUE, sep = "")
     }
-    cat("Covered area: ", sum(object@cov.area, na.rm = T), fill = T)
+    cat("Covered area: ", sum(object@cov.area, na.rm = TRUE), fill = TRUE)
     index <- which(!is.na(object@cov.area))
-    cat("Average coverage: ", round((sum(object@cov.area[index])/sum(object@strata.area))*100,2), "%", fill = T, sep = "")
+    cat("Average coverage: ", round((sum(object@cov.area[index])/sum(object@strata.area))*100,2), "%", fill = TRUE, sep = "")
     invisible(object)
   }
 )

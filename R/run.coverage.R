@@ -175,7 +175,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
   sampler.summary[3,1:strata.count] <- apply(transect.count, 2, median)
   sampler.summary[4,1:strata.count] <- apply(transect.count, 2, max)
   sampler.summary[5,1:strata.count] <- apply(transect.count, 2, sd)
-  sampler.totals <- apply(transect.count, 1, FUN = sum, na.rm = T)
+  sampler.totals <- apply(transect.count, 1, FUN = sum, na.rm = TRUE)
   sampler.summary[1,(strata.count+1)] <- min(sampler.totals)
   sampler.summary[2,(strata.count+1)] <- mean(sampler.totals)
   sampler.summary[3,(strata.count+1)] <- median(sampler.totals)
@@ -190,7 +190,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
   cov.area.summary[3,1:strata.count] <- apply(cov.area, 2, median)
   cov.area.summary[4,1:strata.count] <- apply(cov.area, 2, max)
   cov.area.summary[5,1:strata.count] <- apply(cov.area, 2, sd)
-  cov.area.totals <- apply(cov.area, 1, FUN = sum, na.rm = T)
+  cov.area.totals <- apply(cov.area, 1, FUN = sum, na.rm = TRUE)
   cov.area.summary[1,(strata.count+1)] <- min(cov.area.totals)
   cov.area.summary[2,(strata.count+1)] <- mean(cov.area.totals)
   cov.area.summary[3,(strata.count+1)] <- median(cov.area.totals)
@@ -205,7 +205,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
   cov.area.percent[3,1:strata.count] <- (apply(cov.area, 2, median)/areas)*100
   cov.area.percent[4,1:strata.count] <- (apply(cov.area, 2, max)/areas)*100
   cov.area.percent[5,1:strata.count] <- (apply(cov.area, 2, sd)/areas)*100
-  cov.area.totals <- apply(cov.area, 1, FUN = sum, na.rm = T)/sum(areas)*100
+  cov.area.totals <- apply(cov.area, 1, FUN = sum, na.rm = TRUE)/sum(areas)*100
   cov.area.percent[1,(strata.count+1)] <- min(cov.area.totals)
   cov.area.percent[2,(strata.count+1)] <- mean(cov.area.totals)
   cov.area.percent[3,(strata.count+1)] <- median(cov.area.totals)
@@ -224,7 +224,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
     line.len.summary[3,1:strata.count] <- apply(line.length, 2, median)
     line.len.summary[4,1:strata.count] <- apply(line.length, 2, max)
     line.len.summary[5,1:strata.count] <- apply(line.length, 2, sd)
-    line.len.totals <- apply(line.length, 1, FUN = sum, na.rm = T)
+    line.len.totals <- apply(line.length, 1, FUN = sum, na.rm = TRUE)
     line.len.summary[1,(strata.count+1)] <- min(line.len.totals)
     line.len.summary[2,(strata.count+1)] <- mean(line.len.totals)
     line.len.summary[3,(strata.count+1)] <- median(line.len.totals)
@@ -239,7 +239,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
     trackline.summary[3,1:strata.count] <- apply(trackline, 2, median)
     trackline.summary[4,1:strata.count] <- apply(trackline, 2, max)
     trackline.summary[5,1:strata.count] <- apply(trackline, 2, sd)
-    trackline.totals <- apply(trackline, 1, FUN = sum, na.rm = T)
+    trackline.totals <- apply(trackline, 1, FUN = sum, na.rm = TRUE)
     trackline.summary[1,(strata.count+1)] <- min(trackline.totals)
     trackline.summary[2,(strata.count+1)] <- mean(trackline.totals)
     trackline.summary[3,(strata.count+1)] <- median(trackline.totals)
@@ -254,7 +254,7 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
     cyclictrackline.summary[3,1:strata.count] <- apply(cyclictrackline, 2, median)
     cyclictrackline.summary[4,1:strata.count] <- apply(cyclictrackline, 2, max)
     cyclictrackline.summary[5,1:strata.count] <- apply(cyclictrackline, 2, sd)
-    cyclictrackline.totals <- apply(cyclictrackline, 1, FUN = sum, na.rm = T)
+    cyclictrackline.totals <- apply(cyclictrackline, 1, FUN = sum, na.rm = TRUE)
     cyclictrackline.summary[1,(strata.count+1)] <- min(cyclictrackline.totals)
     cyclictrackline.summary[2,(strata.count+1)] <- mean(cyclictrackline.totals)
     cyclictrackline.summary[3,(strata.count+1)] <- median(cyclictrackline.totals)

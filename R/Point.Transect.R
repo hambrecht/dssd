@@ -66,7 +66,7 @@ setMethod(
     if(length(x@samplers) > 0){
       plot(x@samplers[[sf.column]], add = add, col = col, pch = pch)
     }else{
-      warning("No samplers to plot", call. = F)
+      warning("No samplers to plot", call. = FALSE)
     }
     invisible(x)
   }
@@ -87,32 +87,32 @@ setMethod(
       title <- paste("\n   Strata ", strata.names[strat], ":", sep = "")
       len.title <- nchar(title)
       underline <- paste("   ", paste(rep("_", (len.title-3)), collapse = ""), sep = "")
-      cat(title, fill = T)
-      cat(underline, fill = T)
+      cat(title, fill = TRUE)
+      cat(underline, fill = TRUE)
       design <- switch(object@design[strat],
                        "random" = "randomly located transects",
                        "systematic" = "systematically spaced transects")
-      cat("Design: ", design, fill = T)
+      cat("Design: ", design, fill = TRUE)
       if(object@design[strat] == "systematic"){
-        cat("Spacing: ", object@spacing[strat], fill = T)
+        cat("Spacing: ", object@spacing[strat], fill = TRUE)
       }
-      cat("Number of samplers: ", object@samp.count[strat], fill = T)
-      cat("Design angle: ", object@design.angle[strat], fill = T)
-      cat("Edge protocol: ", object@edge.protocol[strat], fill = T)
-      cat("Covered area: ", object@cov.area[strat], fill = T)
-      cat("Strata coverage: ", round((object@cov.area[strat]/object@strata.area[strat])*100,2), "%", fill = T, sep = "")
-      cat("Strata area: ", object@strata.area[strat], fill = T)
+      cat("Number of samplers: ", object@samp.count[strat], fill = TRUE)
+      cat("Design angle: ", object@design.angle[strat], fill = TRUE)
+      cat("Edge protocol: ", object@edge.protocol[strat], fill = TRUE)
+      cat("Covered area: ", object@cov.area[strat], fill = TRUE)
+      cat("Strata coverage: ", round((object@cov.area[strat]/object@strata.area[strat])*100,2), "%", fill = TRUE, sep = "")
+      cat("Strata area: ", object@strata.area[strat], fill = TRUE)
     }
     #Now print totals
-    cat("\n   Study Area Totals:", fill = T)
-    cat("   _________________", fill = T)
-    cat("Number of samplers: ", sum(object@samp.count, na.rm = T), fill = T)
+    cat("\n   Study Area Totals:", fill = TRUE)
+    cat("   _________________", fill = TRUE)
+    cat("Number of samplers: ", sum(object@samp.count, na.rm = TRUE), fill = TRUE)
     if(length(object@effort.allocation) > 0){
-      cat("Effort allocation: ", paste(object@effort.allocation*100, collapse = "%, "), "%", fill = T, sep = "")
+      cat("Effort allocation: ", paste(object@effort.allocation*100, collapse = "%, "), "%", fill = TRUE, sep = "")
     }
-    cat("Covered area: ", sum(object@cov.area, na.rm = T), fill = T)
+    cat("Covered area: ", sum(object@cov.area, na.rm = TRUE), fill = TRUE)
     index <- which(!is.na(object@cov.area))
-    cat("Average coverage: ", round((sum(object@cov.area[index])/sum(object@strata.area))*100,2), "%", fill = T, sep = "")
+    cat("Average coverage: ", round((sum(object@cov.area[index])/sum(object@strata.area))*100,2), "%", fill = TRUE, sep = "")
     invisible(object)
   }
 )

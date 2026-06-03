@@ -56,10 +56,10 @@ calculate.trackline.segl <- function(transects){
   cyclic.track.length <- st_length(cyclictrack.ls)
   #last.row <- nrow(coord.mat)
   #track.length+ sqrt(abs(coord.mat[16,1]-coord.mat[1,1])^2+abs(coord.mat[16,2]-coord.mat[1,2])^2)
-  #plot(cyclictrack.ls, add = T, col = 4)
-  #plot(track.ls, add = T, col = 4)
+  #plot(cyclictrack.ls, add = TRUE, col = 4)
+  #plot(track.ls, add = TRUE, col = 4)
   #for(i in 1){
-  #  plot(transects[[i]], add = T, col = 3, lwd = 3)
+  #  plot(transects[[i]], add = TRUE, col = 3, lwd = 3)
   #}
   return(list(trackline = track.length, cyclictrackline = cyclic.track.length))
 }
