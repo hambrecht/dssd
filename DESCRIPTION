@@ -1,4 +1,5 @@
 Package: dssd
+Depends: R (>= 3.6.0)
 Imports:
     sf,
     ggplot2,
