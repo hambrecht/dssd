@@ -13,7 +13,7 @@ generate.parallel.lines <- function(design, strata.id, samplers, line.length, sp
   rot.strata <- mat.mult(strata, rot.mat)
   #Buffer strata for plus sampling?
   if(design@edge.protocol[strata.id] == "plus"){
-    rot.strata <- st_buffer(rot.strata, design@truncation)
+    rot.strata <- sf::st_buffer(rot.strata, design@truncation)
   }
   #Find the minimum and maximum x and y values
   bbox <- sf::st_bbox(rot.strata)
