@@ -241,24 +241,24 @@ gt.LT.fun.body <- function(object, quiet, ...){
   cov.areas <- line.length <- sampler.count <- numeric(0)
   transect.count <- 0
   strata.id <- character(0)
+  # collect into lists and combine once -- c()-ing an sfc per transect
+  # copies the whole growing collection each time (O(n^2) for n transects)
+  temp.list <- list()
+  poly.list <- list()
   for(strat in seq(along = index)){
-    for(i in seq(along = transects[[index[strat]]])){
-      if(strat == 1 && i == 1){
-        temp <- sf::st_sfc(transects[[index[strat]]][[i]])
-        temp.poly <- sf::st_sfc(polys[[index[strat]]][[i]])
-        transect.count <- 1
-        strata.id <- strata.names[index[strat]]
-      }else{
-        temp <- c(temp, sf::st_sfc(transects[[index[strat]]][[i]]))
-        temp.poly <- c(temp.poly, sf::st_sfc(polys[[index[strat]]][[i]]))
-        transect.count <- transect.count + 1
-        strata.id <- c(strata.id, strata.names[index[strat]])
-      }
+    n.trans <- length(transects[[index[strat]]])
+    for(i in seq_len(n.trans)){
+      transect.count <- transect.count + 1
+      temp.list[[transect.count]] <- transects[[index[strat]]][[i]]
+      poly.list[[transect.count]] <- polys[[index[strat]]][[i]]
     }
+    strata.id <- c(strata.id, rep(strata.names[index[strat]], n.trans))
     line.length[index[strat]] <- sum(unlist(lapply(transects[[index[strat]]], FUN = sf::st_length)))
     cov.areas[index[strat]] <- sum(unlist(lapply(polys[[index[strat]]], FUN = sf::st_area)))
-    sampler.count[index[strat]] <- length(transects[[index[strat]]])
+    sampler.count[index[strat]] <- n.trans
   }
+  temp <- sf::st_sfc(temp.list)
+  temp.poly <- sf::st_sfc(poly.list)
   all.transects <- sf::st_sf(data.frame(transect = 1:transect.count, strata = strata.id, geom = temp))
   all.polys <- sf::st_sf(data.frame(transect = 1:transect.count, strata = strata.id, geom = temp.poly))
   #Set crs
