@@ -5,7 +5,7 @@ mat.mult <- function(x,y){
   # reverse rotation
   unrotate <- x*y
   # if we are using atlas and the shape is not valid
-  if(grepl("atlas", sessionInfo()$BLAS) && is.na(sf::st_is_valid(unrotate))){
+  if(is.na(sf::st_is_valid(unrotate)) && grepl("atlas", sessionInfo()$BLAS)){
     # validity flag
     is.valid <- FALSE
     # counter

@@ -20,7 +20,7 @@ calc.region.width <- function(design, strata.id = NULL){
     rot.mat <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), ncol = 2, byrow = FALSE)
     rot.strata <- strata*rot.mat
     # if we are using atlas and the shape is not valid
-    if(grepl("atlas", sessionInfo()$BLAS) && is.na(sf::st_is_valid(rot.strata))){
+    if(is.na(sf::st_is_valid(rot.strata)) && grepl("atlas", sessionInfo()$BLAS)){
       # turn it into and sfc shape
       tmp <- sf::st_sfc(rot.strata)
       # make valid with setting the precision
