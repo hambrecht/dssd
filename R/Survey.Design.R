@@ -98,6 +98,7 @@ setMethod(
       warning("Design has not been run yet, all coverage scores are NA.", call. = FALSE)
       return(invisible(NULL))
     }
+    check.coverage.truncation(x)
     # If main is not supplied then take it from the object
     additional.args <- list(...)
     strata.id <- ifelse(length(strata.id) == 0, "all", strata.id)
@@ -196,6 +197,7 @@ setMethod(
     }
     if(length(object@coverage.scores) > 0){
       cat("Coverage Simulation repetitions: ", object@coverage.reps, fill = TRUE)
+      check.coverage.truncation(object)
     }
 
     design.stats <- object@design.statistics
@@ -249,6 +251,7 @@ setMethod(
     if(all(is.na(object@coverage.scores))){
       stop("Design has not been run yet, all coverage scores are NA.", call. = FALSE)
     }else{
+      check.coverage.truncation(object)
       if(strata.id != "all"){
         # Get shape column names
         sf.column.region <- attr(object@region@region, "sf_column")
@@ -280,3 +283,15 @@ setMethod(
 )
 
 
+
+check.coverage.truncation <- function(design){
+  # Warns if the design truncation has been changed since run.coverage was
+  # called, as the coverage scores and design statistics are then out of date
+  cov.truncation <- attr(design@design.statistics, "truncation")
+  if(!is.null(cov.truncation) && !isTRUE(all.equal(cov.truncation, design@truncation))){
+    warning(paste("Coverage was computed with truncation ", paste(cov.truncation, collapse = ", "),
+                  " but the design truncation is now ", paste(design@truncation, collapse = ", "),
+                  ". The coverage scores and design statistics are out of date, please re-run run.coverage().", sep = ""),
+            call. = FALSE)
+  }
+}

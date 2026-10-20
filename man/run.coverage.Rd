@@ -54,6 +54,13 @@ representation of the coverage scores across the study region.
 }
 \details{
 See ?make.design for example code.
+
+The coverage scores and design statistics (e.g. covered area) depend on
+the design truncation distance. The truncation used is recorded, and if
+the truncation of the design is changed afterwards (e.g.
+\code{design@truncation <- 100}) printing, plotting or extracting the
+coverage will give a warning. In that case run.coverage should be re-run
+on the modified design.
 }
 \seealso{
 \link{make.design}

@@ -15,6 +15,13 @@
 #' 1000 or even more repetitions may be needed to gain a good
 #' representation of the coverage scores across the study region.
 #' @details See ?make.design for example code.
+#'
+#' The coverage scores and design statistics (e.g. covered area) depend on
+#' the design truncation distance. The truncation used is recorded, and if
+#' the truncation of the design is changed afterwards (e.g.
+#' \code{design@truncation <- 100}) printing, plotting or extracting the
+#' coverage will give a warning. In that case run.coverage should be re-run
+#' on the modified design.
 #' @param design an object which inherits from the Survey.Design
 #' class.
 #' @param reps the number of times you wish the coverage simulation
@@ -256,6 +263,8 @@ run.coverage <- function(design, reps = 10, save.transects = "", run.parallel = 
     summary.stats$cyclictrackline <- cyclictrackline.summary
   }
   design@coverage.scores <- total.hits/reps
+  # Record the truncation used so later changes to the design can be detected
+  attr(summary.stats, "truncation") <- design@truncation
   design@design.statistics <- summary.stats
   design@coverage.reps <- reps
   return(design)
