@@ -1,3 +1,11 @@
+# dssd 1.0.3.9000 (development version)
+
+Enhancements
+
+* `run.coverage()` gains a `run.parallel` option to run the coverage repetitions on multiple cores.
+* Faster transect generation: the geometry validity check now uses `extSoftVersion()` rather than `sessionInfo()`, and transects are assembled across strata without growing an sfc object in a loop.
+* `run.coverage()` records the truncation distance it used. Printing or plotting a design, or calling `get.coverage()`, warns if the design's truncation has since changed and the coverage is out of date.
+
 # dssd 1.0.3
 
 Enhancements
